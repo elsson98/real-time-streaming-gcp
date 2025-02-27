@@ -1,0 +1,12 @@
+{
+  "projectId": "your-gcp-project-id",
+  "subscriptionPath": "projects/your-gcp-project-id/subscriptions/your-subscription",
+  "orderTable": "your-gcp-project-id:dataset.order_events",
+  "inventoryTable": "your-gcp-project-id:dataset.inventory_events",
+  "userActivityTable": "your-gcp-project-id:dataset.user_activity_events",
+  "errorTable": "your-gcp-project-id:dataset.error_logs",
+  "gcsTempLocation": "gs://your-bucket/temp",
+  "gcsStagingLocation": "gs://your-bucket/staging",
+  "gcsSink": "your-bucket/output/",
+  "region": "your-region"
+}

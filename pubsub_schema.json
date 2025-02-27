@@ -1,0 +1,197 @@
+[
+  {
+    "type": "record",
+    "name": "OrderEvent",
+    "fields": [
+      {
+        "name": "event_type",
+        "type": "string"
+      },
+      {
+        "name": "order_id",
+        "type": "string"
+      },
+      {
+        "name": "customer_id",
+        "type": "string"
+      },
+      {
+        "name": "order_date",
+        "type": "string",
+        "logicalType": "timestamp-millis"
+      },
+      {
+        "name": "status",
+        "type": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "processing",
+            "shipped",
+            "delivered"
+          ]
+        }
+      },
+      {
+        "name": "items",
+        "type": {
+          "type": "array",
+          "items": {
+            "type": "record",
+            "name": "OrderItem",
+            "fields": [
+              {
+                "name": "product_id",
+                "type": "string"
+              },
+              {
+                "name": "product_name",
+                "type": "string"
+              },
+              {
+                "name": "quantity",
+                "type": "int"
+              },
+              {
+                "name": "price",
+                "type": "float"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "shipping_address",
+        "type": {
+          "type": "record",
+          "name": "ShippingAddress",
+          "fields": [
+            {
+              "name": "street",
+              "type": "string"
+            },
+            {
+              "name": "city",
+              "type": "string"
+            },
+            {
+              "name": "country",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "name": "total_amount",
+        "type": "float"
+      }
+    ]
+  },
+  {
+    "type": "record",
+    "name": "InventoryEvent",
+    "fields": [
+      {
+        "name": "event_type",
+        "type": "string"
+      },
+      {
+        "name": "inventory_id",
+        "type": "string"
+      },
+      {
+        "name": "product_id",
+        "type": "string"
+      },
+      {
+        "name": "warehouse_id",
+        "type": "string"
+      },
+      {
+        "name": "quantity_change",
+        "type": "int"
+      },
+      {
+        "name": "reason",
+        "type": {
+          "type": "string",
+          "enum": [
+            "restock",
+            "sale",
+            "return",
+            "damage"
+          ]
+        }
+      },
+      {
+        "name": "timestamp",
+        "type": "string",
+        "logicalType": "timestamp-millis"
+      }
+    ]
+  },
+  {
+    "type": "record",
+    "name": "UserActivityEvent",
+    "fields": [
+      {
+        "name": "event_type",
+        "type": "string"
+      },
+      {
+        "name": "user_id",
+        "type": "string"
+      },
+      {
+        "name": "activity_type",
+        "type": {
+          "type": "string",
+          "enum": [
+            "login",
+            "logout",
+            "view_product",
+            "add_to_cart",
+            "remove_from_cart"
+          ]
+        }
+      },
+      {
+        "name": "ip_address",
+        "type": "string"
+      },
+      {
+        "name": "user_agent",
+        "type": "string"
+      },
+      {
+        "name": "timestamp",
+        "type": "string",
+        "logicalType": "timestamp-millis"
+      },
+      {
+        "name": "metadata",
+        "type": {
+          "type": "record",
+          "name": "UserActivityMetadata",
+          "fields": [
+            {
+              "name": "session_id",
+              "type": "string"
+            },
+            {
+              "name": "platform",
+              "type": {
+                "type": "string",
+                "enum": [
+                  "web",
+                  "mobile",
+                  "tablet"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

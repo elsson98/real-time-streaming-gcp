@@ -1,0 +1,76 @@
+====Inventory====
+
+{
+  "InventoryEvent": {
+    "event_type": "inventory",
+    "inventory_id": "inv-001",
+    "product_id": "prod-789",
+    "warehouse_id": "wh-001",
+    "quantity_change": -5,
+    "reason": "sale",
+    "timestamp": "2025-02-27T12:05:00Z"
+  }
+}
+
+====Order====
+
+{
+  "OrderEvent": {
+    "event_type": "order",
+    "order_id": "ord-123",
+    "customer_id": "cust-456",
+    "order_date": "2025-02-27T12:10:00Z",
+    "status": "processing",
+    "items": [
+      {
+        "product_id": "prod-001",
+        "product_name": "Wireless Mouse",
+        "quantity": 2,
+        "price": 15.99
+      },
+      {
+        "product_id": "prod-002",
+        "product_name": "Keyboard",
+        "quantity": 1,
+        "price": 29.99
+      }
+    ],
+    "shipping_address": {
+      "street": "123 Elm Street",
+      "city": "Sample City",
+      "country": "Wonderland"
+    },
+    "total_amount": 61.97
+  }
+}
+
+====User Activity====
+
+{
+  "UserActivityEvent": {
+    "event_type": "activity",
+    "user_id": "user-789",
+    "activity_type": "add_to_cart",
+    "ip_address": "192.168.1.50",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+    "timestamp": "2025-02-27T12:15:00Z",
+    "metadata": {
+      "session_id": "sess-abc123",
+      "platform": "web"
+    }
+  }
+}
+
+=====Invalid====
+
+{
+  "InventoryEvent": {
+    "event_type": "inventory",
+    "inventory_id": "inv-001",
+    "product_id": "prod-789",
+    "warehouse_id": "wh-001",
+    "quantity_change": -545,
+    "reason": "sale",
+    "timestamp": "2025-02-27T12:05:00Z"
+  }
+}

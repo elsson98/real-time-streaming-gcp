@@ -1,0 +1,40 @@
+Design Decisions and Rationale
+
+1. Unified Topic with Enforced Schemas
+	•	Single Pub/Sub Topic: All events are published to one topic (backend-events-topic), which simplifies the event pipeline.
+	•	Schema Enforcement: Despite all events being on a single topic, each event is validated against its respective schema
+	(order, inventory, or user_activity). This is crucial for ensuring data integrity and allowing downstream processes
+	to correctly parse and route events based on their type.
+	•	Centralized Processing: Having all events in one topic facilitates a unified processing approach using Dataflow
+	 (Apache Beam) where events can be segregated into their respective BigQuery tables based on their schema.
+	 This method provide easier management, and reduced complexity in the data ingestion pipeline.
+
+2. Table Structure and Relationships
+	•	Separate Tables: Each event type is stored in its own table to simplify queries and enable specialized optimizations based on the event’s schema.
+	•	Embedded Structures: Nested and repeated fields are used for complex attributes (e.g., the items array in orders and the
+	shipping_address structure), ensuring that the semi-structured data is maintained without denormalizing it.
+	•	Error Records Table: A dedicated table captures any records that fail schema validation or processing, supporting effective
+	troubleshooting and reprocessing if necessary.
+
+3. Partitioning and Clustering Strategies
+	•	Partitioning by Date: Partitioning all tables by the timestamp ensures efficient time-based querying and cost-effective data management.
+	•	Clustering: Each table is clustered on key dimensions:
+	•	Order Table: Clustered by customer_id and status to optimize queries filtering by customer and order state.
+	•	Inventory Table: Clustered by product_id and warehouse_id for better aggregation and filtering by product and location.
+	•	User Activity Table: Clustered by user_id and activity_type to enhance query performance on user-specific behaviors.
+	•	Error Records Table: Clustered by error_message and original_json to help quickly diagnose common issues.
+
+4. Tracking Historical Data and Time Travel
+	•	Ingestion Time Column: Every table includes an ingestion_time field to track when data is ingested into BigQuery
+	•	Historical Analysis: With partitioning and BigQuery’s time travel features, historical data can be queried effectively,
+	 supporting analytics and auditing.
+
+
+
+Code :
+Dataflow streaming pipeline that processes union-encoded JSON messages from a Pub/Sub subscription.
+ The pipeline uses Jackson for JSON parsing (with Jackson annotations and/or naming strategy to correctly map snake_case keys
+ to our Java model fields) and Joda-Time for timestamps. It splits the incoming messages into different event types
+ (Order, Inventory, and UserActivity) and routes any errors to a dedicated error branch. Processed events are then written
+ to their respective BigQuery tables, while raw messages are also archived to Google Cloud Storage using a dynamic folder structure.
+ Used enum to enforce some constraint and implemented some costum logic based one each event.
