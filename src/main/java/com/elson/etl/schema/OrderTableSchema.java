@@ -11,7 +11,7 @@ public class OrderTableSchema {
                 new TableFieldSchema().setName("event_type").setType("STRING"),
                 new TableFieldSchema().setName("order_id").setType("STRING"),
                 new TableFieldSchema().setName("customer_id").setType("STRING"),
-                new TableFieldSchema().setName("event_timestamp").setType("TIMESTAMP"),
+                new TableFieldSchema().setName("order_date").setType("TIMESTAMP"),
                 new TableFieldSchema().setName("status").setType("STRING"),
                 new TableFieldSchema().setName("items").setType("RECORD")
                         .setMode("REPEATED")

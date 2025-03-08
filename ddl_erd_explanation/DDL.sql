@@ -1,9 +1,9 @@
-CREATE TABLE `real-time-streaming-452114.events.order`
+CREATE OR REPLACE TABLE `real-time-streaming-452114.events.order`
 (
     event_type STRING NOT NULL OPTIONS(description="Always 'order'"),
     order_id STRING NOT NULL,
     customer_id STRING NOT NULL,
-    timestamp TIMESTAMP NOT NULL,
+    order_date TIMESTAMP NOT NULL,
     status STRING NOT NULL OPTIONS(description="ENUM: pending, processing, shipped, delivered"),
     items ARRAY<
     STRUCT<
@@ -22,10 +22,10 @@ CREATE TABLE `real-time-streaming-452114.events.order`
     ingestion_time TIMESTAMP NOT NULL
         OPTIONS(description="Time when the event was ingested into BigQuery")
 )
-    PARTITION BY DATE(timestamp)
+    PARTITION BY DATE(order_date)
 CLUSTER BY customer_id, status;
 
-CREATE TABLE `real-time-streaming-452114.events.inventory`
+CREATE OR REPLACE TABLE `real-time-streaming-452114.events.inventory`
 (
     event_type STRING NOT NULL OPTIONS(description="Always 'inventory'"),
     inventory_id STRING NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE `real-time-streaming-452114.events.inventory`
     PARTITION BY DATE(timestamp)
 CLUSTER BY product_id, warehouse_id;
 
-CREATE TABLE `real-time-streaming-452114.events.user_activity`
+CREATE OR REPLACE TABLE `real-time-streaming-452114.events.user_activity`
 (
     event_type STRING NOT NULL OPTIONS(description="Always 'user_activity'"),
     user_id STRING NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE `real-time-streaming-452114.events.user_activity`
     PARTITION BY DATE(timestamp)
 CLUSTER BY user_id, activity_type;
 
-CREATE TABLE `real-time-streaming-452114.events.error_records` (
+CREATE OR REPLACE TABLE `real-time-streaming-452114.events.error_logs` (
     error_message STRING,
     original_json STRING,
     timestamp TIMESTAMP,
@@ -70,3 +70,7 @@ CLUSTER BY error_message, original_json;
 -- TRUNCATE TABLE `real-time-streaming-452114.events.inventory`;
 -- TRUNCATE TABLE `real-time-streaming-452114.events.order`;
 -- TRUNCATE TABLE `real-time-streaming-452114.events.user_activity`;
+--DROP TABLE IF EXISTS `real-time-streaming-452114.events.order`;
+--DROP TABLE IF EXISTS `real-time-streaming-452114.events.inventory`;
+--DROP TABLE IF EXISTS `real-time-streaming-452114.events.user_activity`;
+--DROP TABLE IF EXISTS `real-time-streaming-452114.events.error_logs` ;

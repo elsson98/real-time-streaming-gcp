@@ -53,7 +53,7 @@ public class Order implements Serializable {
         row.set("order_id", orderId);
         row.set("customer_id", customerId);
         row.set("order_date", orderDate);
-        row.set("status", status);
+        row.set("status", status != null ? status.toValue() : null);
         if (items != null) {
             row.set("items", items.stream().map(OrderItem::toTableRow).collect(Collectors.toList()));
         }

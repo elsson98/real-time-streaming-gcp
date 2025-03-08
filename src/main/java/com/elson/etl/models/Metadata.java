@@ -20,12 +20,12 @@ public class Metadata implements Serializable {
     private String sessionId;
 
     @JsonProperty("platform")
-    private String platform;
+    private Platform platform;
 
     public TableRow toTableRow() {
         TableRow row = new TableRow();
         row.set("session_id", sessionId);
-        row.set("platform", platform);
+        row.set("platform", platform != null ? platform.toValue() : null);
         return row;
     }
 }

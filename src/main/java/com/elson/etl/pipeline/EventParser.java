@@ -13,7 +13,7 @@ import org.joda.time.Instant;
 
 import java.util.Iterator;
 
-import static com.elson.etl.pipeline.EventPipelineLocal.*;
+import static com.elson.etl.pipeline.EventPipelineGcp.*;
 
 public class EventParser extends DoFn<String, Order> {
     private transient ObjectMapper mapper;

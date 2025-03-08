@@ -46,7 +46,10 @@ mvn clean compile exec:java \
 --stagingLocation=gs://inventory-ingestion-etl/staging \
 --tempLocation=gs://inventory-ingestion-etl/temp \
 --numWorkers=2 \
---workerMachineType=n2-standard-2"
+--workerMachineType=n2-standard-2 \
+--jobName=real-time-events\
+--enableStreamingEngine"
+
 After deployment, you can view the Dataflow graph in the GCP console.
 Start publishing messages on the created topics to see the related tables populated immediately.
 
